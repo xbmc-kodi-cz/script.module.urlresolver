@@ -1,4 +1,4 @@
-Version 6.1.01 (May 24, 2021)
+Version 6.1.02 (May 24, 2021)
 - Code Base Changes:
     - helpers update
 - Resolvers Added:
