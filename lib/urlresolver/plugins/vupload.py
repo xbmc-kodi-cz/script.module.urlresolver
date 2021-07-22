@@ -1,6 +1,6 @@
-'''
+"""
     Plugin for URLResolver
-    Copyright (C) 2020 gujal
+    Copyright (C) 2021  gujal
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -14,24 +14,21 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-'''
+"""
 
 from urlresolver.plugins.lib import helpers
 from urlresolver.plugins.__generic_resolver__ import GenericResolver
 
 
-class SBEmbedResolver(GenericResolver):
-    name = "sbembed"
-    domains = ["sbembed.com"]
-    pattern = r'(?://|\.)(sbembed\.com)/(?:embed-|e|play)/?([0-9a-zA-Z]+)'
+class VUploadResolver(GenericResolver):
+    name = "vupload"
+    domains = ["vupload.com"]
+    pattern = r'(?://|\.)(vupload\.com)/(?:e/)?([0-9A-Za-z]+)'
 
     def get_media_url(self, host, media_id):
         return helpers.get_media_url(self.get_url(host, media_id),
-                                     patterns=[r'''sources\s*:\s*\["(?P<url>[^"]+)''',
-                                               r'''(?:file|src):\s*"(?P<url>[^"]+)'''],
-                                     generic_patterns=False,
-                                     result_blacklist=['dl', '.srt', '.vtt'],
-                                     referer=False)
+                                     patterns=[r'''src:\s*"(?P<url>[^"]+)",\s*type:\s*"video/mp4",\s*res:\s*(?P<label>[^,]+)'''],
+                                     generic_patterns=False)
 
     def get_url(self, host, media_id):
-        return self._default_get_url(host, media_id, template='https://{host}/play/{media_id}')
+        return self._default_get_url(host, media_id, template='https://{host}/e/{media_id}')
